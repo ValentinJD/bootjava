@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import ru.javaops.bootjava.AuthUser;
+import ru.javaops.bootjava.model.Role;
 import ru.javaops.bootjava.model.User;
 import ru.javaops.bootjava.repository.UserRepository;
 
