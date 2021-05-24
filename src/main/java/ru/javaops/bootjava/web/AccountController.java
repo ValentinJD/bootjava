@@ -23,6 +23,17 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.Set;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+
+/**
+ * Do not use {@link org.springframework.data.rest.webmvc.RepositoryRestController (BasePathAwareController}
+ * Bugs:
+ * NPE with http://localhost:8080/api/account<br>
+ * <a href="https://github.com/spring-projects/spring-hateoas/issues/434">data.rest.base-path missed in HAL links</a><br>
+ * <a href="https://jira.spring.io/browse/DATAREST-748">Two endpoints created</a>
+ * <p>
+ * RequestMapping("/${spring.data.rest.basePath}/account") give "Not enough variable values"
+ */
 @RestController
 @RequestMapping("/api/account")
 @AllArgsConstructor
@@ -42,7 +53,7 @@ public class AccountController implements RepresentationModelProcessor<Repositor
     @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
     public EntityModel<User> get(@AuthenticationPrincipal AuthUser authUser) {
         log.info("get {}", authUser);
-        return authUser.getUser();
+        return ASSEMBLER.toModel(authUser.getUser());
     }
 
     @DeleteMapping
